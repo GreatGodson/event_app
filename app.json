@@ -6,5 +6,10 @@
     },
     "name": "event-app",
     "slug": "event-app"
+  },
+  "splash": {
+    "image": "../../../assets/splashPng.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
   }
 }

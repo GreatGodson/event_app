@@ -1,11 +1,12 @@
 import { useRouter } from "expo-router";
-import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import { View, Text, TouchableOpacity, SafeAreaView, Alert } from "react-native";
 import AppTheme from "../../../../core/utils/theme/colors";
 import CustomTextInput from "../../../../core/shared/presentation/components/custom_border_textinput.js";
 import CustomButton from "../../../../core/shared/presentation/components/custom_button";
 import { MaterialIcons } from "@expo/vector-icons";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { useState } from "react";
+import DateTimePicker, {DateTimePickerAndroid} from "@react-native-community/datetimepicker";
+import React, { useState } from "react";
+
 import SizedBox from "../../../../core/shared/presentation/components/sizedbox";
 
 const ModifyEventScreen = () => {
@@ -33,6 +34,8 @@ const ModifyEventScreen = () => {
   const showTimepicker = () => {
     showMode("time");
   };
+
+ 
   return (
     <SafeAreaView
       style={{

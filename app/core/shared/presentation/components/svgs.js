@@ -1,6 +1,15 @@
-import React from 'react';
-import Svg, { Circle, Defs, Filter, FeFlood, FeColorMatrix, FeOffset, FeGaussianBlur, FeBlend, Path } from 'react-native-svg';
-
+import React from "react";
+import Svg, {
+  Circle,
+  Defs,
+  Filter,
+  FeFlood,
+  FeColorMatrix,
+  FeOffset,
+  FeGaussianBlur,
+  FeBlend,
+  Path,
+} from "react-native-svg";
 
 const AppSvgs = {
   emailSvg: (
@@ -40,6 +49,26 @@ const AppSvgs = {
       <Path
         opacity="0.4"
         d="M18.0228 7.89595V9.36667C17.6672 9.2673 17.2912 9.21761 16.9051 9.21761H16.2446V7.89595C16.2446 5.87868 14.5679 4.23903 12.5052 4.23903C10.4424 4.23903 8.76579 5.86874 8.75563 7.87608V9.21761H8.1053C7.70901 9.21761 7.33304 9.2673 6.97739 9.37661V7.89595C6.98755 4.91476 9.45676 2.5 12.4849 2.5C15.5536 2.5 18.0228 4.91476 18.0228 7.89595Z"
+        fill="#F67952"
+      />
+    </Svg>
+  ),
+
+  profileSvg: (
+    <Svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="25"
+      height="25"
+      viewBox="0 0 25 25"
+      fill="none"
+    >
+      <Path
+        d="M12.4968 15.6746C8.1838 15.6746 4.4998 16.3546 4.4998 19.0746C4.4998 21.7956 8.1608 22.4996 12.4968 22.4996C16.8098 22.4996 20.4938 21.8206 20.4938 19.0996C20.4938 16.3786 16.8338 15.6746 12.4968 15.6746Z"
+        fill="#F67952"
+      />
+      <Path
+        opacity="0.4"
+        d="M12.4968 13.0837C15.4348 13.0837 17.7888 10.7287 17.7888 7.79169C17.7888 4.85469 15.4348 2.49969 12.4968 2.49969C9.5598 2.49969 7.2048 4.85469 7.2048 7.79169C7.2048 10.7287 9.5598 13.0837 12.4968 13.0837Z"
         fill="#F67952"
       />
     </Svg>

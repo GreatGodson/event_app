@@ -9,25 +9,30 @@ import {
 import AppSvgs from "../../../../core/shared/presentation/components/svgs";
 import AppTheme from "../../../../core/utils/theme/colors";
 import CustomTextField from "../../../../core/shared/presentation/components/custom_textfield.js";
-import { useRouter , useNavigation} from "expo-router";
+import { useRouter } from "expo-router";
 import CustomButton from "../../../../core/shared/presentation/components/custom_button";
 import AppRoutes from "../../../../core/routes/app_routes";
 import useLoginService from "../../domain/service/login_service";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import LoadingDialog from "../components/loading_dialog";
 import ErrorDialog from "../components/error_dialog";
 import { authStyles } from "../../../../core/utils/theme/styles/auth_screen_styles";
-
+import { useNavigation } from "expo-router";
+import { UserContext } from "../../../../core/context";
 
 const LoginScreen = () => {
   const router = useRouter();
+  const { user, setUser } = useContext(UserContext);
+
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState();
-  const { data, isLoading, error, errorMessage, login } =
-    useLoginService(email, password);
+  const { data, isLoading, error, errorMessage, login } = useLoginService(
+    email,
+    password
+  );
 
   const [isDialogVisible, setIsDialogVisible] = useState(false);
 
@@ -55,18 +60,14 @@ const LoginScreen = () => {
       <CustomTextField
         prefixIcon={AppSvgs.lockSvg}
         placeholder={"Password"}
-        onChangeText={(val) => setPassword(val)} 
+        onChangeText={(val) => setPassword(val)}
       />
       <View
         style={{ alignSelf: "flex-end", marginRight: 20, marginVertical: 17 }}
       >
         <Text>Forgot Password?</Text>
       </View>
-     <CustomButton
-     buttonTitle={'Log In'}
-     onPress={handleLoginAccount }
-     
-     />
+      <CustomButton buttonTitle={"Log In"} onPress={handleLoginAccount} />
       <View
         style={{
           flexDirection: "row",
@@ -99,8 +100,12 @@ const LoginScreen = () => {
 
       <View style={{ flexDirection: "row" }}>
         <Text> Don't have an account? </Text>
-        <TouchableOpacity 
-        onPress={()=> router.replace(AppRoutes.signup)}
+        <TouchableOpacity
+          onPress={() => {
+            router.replace(AppRoutes.signup);
+
+            console.log(user);
+          }}
         >
           <Text> Sign Up</Text>
         </TouchableOpacity>
@@ -130,6 +135,5 @@ const LoginScreen = () => {
     </SafeAreaView>
   );
 };
-
 
 export default LoginScreen;

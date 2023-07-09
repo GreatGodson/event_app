@@ -1,43 +1,82 @@
-import { Text, View, SafeAreaView, FlatList, Alert } from "react-native";
+import {
+  Text,
+  View,
+  SafeAreaView,
+  FlatList,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import CustomButton from "../../../../core/shared/presentation/components/custom_button";
 import CustomListTile from "../../../../core/shared/presentation/components/custom_list_tile.js";
 import homeStyles from "../styles/home_styles";
 import { useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-
-
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getFirestore,
+  doc,
+  setDoc,
+  onSnapshot,
+} from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import AppTheme from "../../../../core/utils/theme/colors";
 
 const HomeScreen = () => {
   const router = useRouter();
   const sheetRef = useRef();
   const [isOpen, setIsOpen] = useState(false);
+  const [event, setEvents] = useState([]);
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  const uid = currentUser.uid;
+  const db = getFirestore();
+  const customDocRef = doc(collection(db, "users"), uid);
+  const [isLoading, setLoading] = useState(true);
 
-  const data = [
-    { title: "Event Title 1", date: "11/03 12:30 pm" },
-    { title: "Event Title 2", date: "11/04 2:00 pm" },
-    { title: "Event Title 3", date: "11/05 10:00 am" },
-  ];
+  useEffect(() => {
+    const unsubscribe = onSnapshot(customDocRef, (doc) => {
+      if (doc.exists()) {
+        const allData = doc.data();
+        setEvents(allData.events);
+        console.log(event);
+        console.log(`the event is : ${event}`);
+        setLoading(false);
+      } else {
+        setEvents(null);
+        console.log("does not exist");
+        console.log(doc.id);
+        console.log(doc);
+        setLoading(false);
+      }
+    });
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={()=> {
-      setIsOpen(true) 
-     
-    }}>
-      <CustomListTile
-        title={item.title}
-        date={item.date}
-        isOpen={isOpen}
-        updateOnTap={() => {
+    return () => unsubscribe();
+  }, []);
+
+  const renderItem = ({ item }) => {
+    return (
+      <TouchableOpacity
+        onPress={() => {
           setIsOpen(true);
         }}
-      />
-    </TouchableOpacity>
-  );
+      >
+        <CustomListTile
+          title={item.title}
+          date={item.data}
+          isOpen={isOpen}
+          updateOnTap={() => {
+            setIsOpen(true);
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
 
   const snapPoints = ["30%"];
 
@@ -58,11 +97,32 @@ const HomeScreen = () => {
         <Text style={{ fontSize: 20, fontWeight: "500" }}> My Events</Text>
       </View>
 
-      <FlatList
-        data={data}
+      {  isLoading ? (
+        
+        <ActivityIndicator style={{ marginTop: 20, flex: 1 }} size={'large'} color={AppTheme.primaryColor} />
+      ) : event.length === 0 ? (
+        <Text
+          style={{
+            alignSelf: "center",
+            marginTop: 20,
+            flex: 1,
+            fontSize: 22,
+          }}
+        >
+          Events is empty
+        </Text>
+      ) : (
+        <FlatList
+          data={event}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      )}
+      {/* <FlatList
+        data={event}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
-      />
+      /> */}
 
       <View style={{ alignItems: "center" }}>
         <CustomButton

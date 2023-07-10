@@ -4,9 +4,11 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
 import { useState, useContext } from "react";
 import AppRoutes from "../../../../core/routes/app_routes";
 import { UserContext } from "../../../../core/context";
+import axios from "axios";
 
 const useLoginService = () => {
   const { user, setUser } = useContext(UserContext);
@@ -27,13 +29,25 @@ const useLoginService = () => {
         email,
         password
       );
-
-    
+      const data = {
+        email: email,
+        password: password,
+      };
+      const response = await axios.post(
+        "https://37d5afc5-3032-4809-bc60-a36133b3185a.mock.pstmn.io/ad-login",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+        }
+      );
 
       // setUser(userCredential.user.uid);
-    
+
       setData(userCredential.user.uid);
-   
+
       router.push(AppRoutes.home);
     } catch (error) {
       setError(true);

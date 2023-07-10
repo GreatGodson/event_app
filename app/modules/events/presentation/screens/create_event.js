@@ -21,7 +21,11 @@ const CreateEventScreen = () => {
   const firestore = getFirestore()
   const router = useRouter();
   const [date, setDate] = useState(new Date(1598051730000));
-  const [event, setEvents]= useState([])
+  const [event, setEvents]= useState([]);
+
+  const [ eventTitle, setEventTitle ] =  useState('');
+  const [ eventDate, setEventDate] = useState('');
+
 
 
   const eventData = {
@@ -121,16 +125,20 @@ const CreateEventScreen = () => {
       <View style={{ marginHorizontal: 24 }}>
         <CustomTextInput
           placeholder={"Event Title"}
-          onChangeText={(val) => {}}
+          onChangeText={(val) => {
+            setEventTitle(val)
+          }}
         />
 
-        <TouchableOpacity onPress={showDatepicker}>
+        {/* <TouchableOpacity onPress={showDatepicker}> */}
           <CustomTextInput
             placeholder={"Event Title"}
-            onChangeText={(val) => {}}
-            editable={false}
+            onChangeText={(val) => {
+              setEventDate(val) 
+            }}
+  
           />
-        </TouchableOpacity>
+        {/* </TouchableOpacity> */}
       </View>
 
       <View
@@ -149,22 +157,15 @@ const CreateEventScreen = () => {
           try {
 
             const newEvent ={
-              "title": 'title',
-              "date": 'event date'
+              "title": eventTitle,
+              "date": eventDate
             }
 
           const updatedEvents = [...event, newEvent];
-            // await updateDoc(customDocRef, newEvent);
-
-           
+       
             await updateDoc(customDocRef, { events: updatedEvents});
-
-            // const docRef = await addDoc(collection(firestore, "events"), {
-            //   first: "Ada",
-            //   last: "Lovelace",
-            //   born: 1815
-            // });
             console.log("Document written with ID: ", customDocRef.id);
+            router.back()
           } catch (e) {
             console.error("Error adding document: ", e);
           }

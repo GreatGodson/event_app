@@ -88,7 +88,7 @@ const HomeScreen = () => {
       >
         <CustomListTile
           title={item.title}
-          date={item.data}
+          date={item.date}
           isOpen={isOpen}
           updateOnTap={() => {
             setIsOpen(true);

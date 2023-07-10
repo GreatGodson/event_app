@@ -33,16 +33,16 @@ const useLoginService = () => {
         email: email,
         password: password,
       };
-      const response = await axios.post(
-        "https://37d5afc5-3032-4809-bc60-a36133b3185a.mock.pstmn.io/ad-login",
-        data,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-        }
-      );
+      // const response = await axios.post(
+      //   "https://37d5afc5-3032-4809-bc60-a36133b3185a.mock.pstmn.io/ad-login",
+      //   data,
+      //   {
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //       Accept: "application/json",
+      //     },
+      //   }
+      // );
 
       // setUser(userCredential.user.uid);
 
